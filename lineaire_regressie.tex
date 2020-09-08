@@ -5,7 +5,7 @@ Een groot deel van machine learning, zeker wanneer we het hebben over \textit{ge
 
 Overigens raken we hier direct aan een aardig aspect van \textit{machine learning}, namelijk dat twee of meer variabelen prima een gelijk verloop kunnen vertonen, zonder dat hier een causaal verband tussen bestaat. Wanneer je aspecten van je data met elkaar in verband wilt brengen, moet je je er dus altijd van vergewissen dat hier een \textit{logische} verhouding tussen bestaat. Je loopt anders het risico op zogenaamde \textit{spurieuze verhoudingen}. Zie voor mooie voorbeelden hiervan \url{http://tylervigen.com/spurious-correlations}.
 
-\subsection{De som van de gekwadrateerde afwijking}
+\subsection{De som van de kwadratische afwijking}
 Wanneer we de verhouding tussen de grootte van een huis platten tegenover de waarde van datzelfde huis, krijgen we bijvoorbeeld een plaatje als in figuur \ref{img:scatter}:
 
 \begin{figure}[h]
@@ -14,7 +14,7 @@ Wanneer we de verhouding tussen de grootte van een huis platten tegenover de waa
 \caption{Scatterplot van de grootte van een huis ten opzichte van de prijs.\label{img:scatter}}
 \end{figure}
 
-De scatterplot in figuur \ref{img:scatter} toont een aantal \textit{observaties}: elk punt $(x,y)$ is een observatie van de prijs en de grootte van een huis. Zoals je ziet, is er wel een bepaalde correlatie tussen deze twee grootheden te identificeren: hoe groter het huis, hoe duurder. De vraag is nu hoe exact deze verhouding is.
+De scatterplot in figuur \ref{img:scatter} toont een aantal \textit{observaties}: Elk punt $(x,y)$ is een observatie van de prijs en de grootte van een huis. Zoals je ziet, is er wel een bepaalde correlatie tussen deze twee grootheden te identificeren: Hoe groter het huis, hoe duurder. De vraag is nu hoe exact deze verhouding is.
 
 Om de manier waarop je deze vraag kunt beantwoorden te verduidelijken, gebruiken we de wat eenvoudiger scatterplot in figuur \ref{img:scatter2}. Hier zijn twee variabelen $x$ en $y$ tegenover elkaar gezet, met daarin vier observaties: $p^{(1)}=(1,1)$, $p^{(2)}=(1,4)$, $p^{(3)}=(3,4)$ en $p^{(4)}=(4,4)$. Verder stellen we als \textit{hypothese} dat de waarde van $y$ gelijk is aan de waarde van $x$, kortom dat $y=x$. Deze hypothese wordt in figuur \ref{img:scatter2} door de dunne rode lijn weergegeven.
 
@@ -47,18 +47,18 @@ KOST &= \frac{0^2 + (-3)^2 + 1^2 + 0^2}{4}\\
 \subsection{Gegevensnotatie}
 Om hier goed over te kunnen redeneren en mee te kunnen rekenen is een conventie nodig met betrekking tot de notatie van de verschillende elementen.
 
-In het voorbeeld hierboven is steeds gesproken over slechts één eigenschap waar naar gekeken wordt om de prijs van een huis te bepalen: de grootte van het woonoppervlak. In werkelijkheid zijn meestal meer eigenschappen van data die je in je berekeningen mee wilt nemen. Deze eigenschappen (Engels: \textit{features}) worden weergegeven door middel van een subscript $j$. De individuele observaties (\textit{samples}) $x$ uit de volledige trainingsdata $X$ worden beschreven met een superscript $i$ tussen haakjes. Dus $x_4^{(2)}$ heeft betrekking op de waarde van de \textit{vierde} eigenschap van het \textit{tweede} observatie. Stel je voor dat de trainingsdata bestaat uit vier eigenschappen, dan geldt dus:
+In het voorbeeld hierboven is steeds gesproken over slechts één eigenschap, waar naar gekeken wordt. Zoals de grootte van het woonoppervlak. In werkelijkheid zijn er meestal meer eigenschappen in een data bron die je in je berekeningen mee wilt nemen. Deze eigenschappen (Engels: \textit{features}) worden weergegeven door middel van een subscript $j$. De individuele observaties (\textit{samples}) $x$ uit de volledige trainingsdata $X$ worden beschreven met een superscript $i$ tussen haakjes. Dus $x_4^{(2)}$ heeft betrekking op de waarde van de \textit{vierde} eigenschap van het \textit{tweede} observatie. Stel je voor dat de trainingsdata bestaat uit vier eigenschappen, dan geldt dus:
 
 \[
 x^{(i)}  = 
 \begin{bmatrix}
 x_1^{(i)} & x_2^{(i)} & x_3^{(i)} & x_4^{(i)}
-\end{bmatrix} \in X.
+\end{bmatrix} \in X
 \]
 
 Het totaal aantal observaties in de trainingsdata wordt weergegeven met $m$ en de verwachte uitkomst met $y$. Voor elk sample $x^{(i)} \in X$ (waarvoor geldt $1 \le i \le m$) is er een corresponderende waarde $y^{(i)}$.
 
-De hypothese $h$ die we formuleren geeft als het ware een gewicht aan alle eigenschappen (\textit{features}) van de trainingsset. Deze gewichten worden weergeven met de Griekse kleine letter theta, $\theta$, met een subscript om aan te geven bij welke eigenschap dat specifieke gewicht hoort. Het aantal eigenschappen van een dataset wordt aangegeven met $n$, dus $\theta$ is een $n \times 1$ kolomvector. Aan deze vector wordt meestal nog een initiële waarde $\theta_0$ toegevoegd (zoals de algemene formule van een lijn: $y=b+ax$).
+De hypothese $h$, die we formuleren geeft als het ware een gewicht aan alle eigenschappen (\textit{features}) van de trainingsset. Deze gewichten worden weergeven met de Griekse kleine letter theta, $\theta$, met een subscript om aan te geven bij welke eigenschap dat specifieke gewicht hoort. Het aantal eigenschappen van een dataset wordt aangegeven met $n$, dus $\theta$ is een $n \times 1$ matrix of ook wel een kolomvector van lengte $n$. Aan deze vector wordt meestal nog een initiële waarde $\theta_0$ toegevoegd (zoals de algemene formule van een lijn: $y=b+ax$).
 
 \[
 \theta=
@@ -85,10 +85,10 @@ h_\theta(x) = \theta^Tx.
 \caption{Een aantal mogelijke hypothese.\label{img:scatter4}}
 \end{figure}
 
-De vector $\theta$ beschrijft een hypothese van de verhouding tussen de gegeven en de gevraagde uitkomst. Voor elke observatie $x^{(i)}$ in de trainingsdata $X$ wordt aan de hand van $\theta$ de waarde van $h_\theta(x^{(i)})$ bepaald. Deze waarde wordt vergeleken met de \textit{actuele} waarde $y^{(i)})$. Het verschil tussen deze twee wordt gekwadrateerd en al deze verschillen worden bij elkaar opgeteld en gedeeld door het aantal samples om de gemiddelde kosten te krijgen die de huidige hypothese met zich meebrengt. Deze kosten worden weergegeven met $J$, wat dus een een functie is van $\theta$. De complete formule van de kostenfunctie is dus:
+De vector $\theta$ beschrijft een hypothese van de verhouding tussen de gegeven en de gevraagde uitkomst. Voor elke observatie $x^{(i)}$ in de trainingsdata $X$ wordt aan de hand van $\theta$ de waarde van $h_\theta(x^{(i)})$ bepaald. Deze waarde wordt vergeleken met de \textit{actuele} waarde $y^{(i)}$. Het verschil tussen deze twee wordt gekwadrateerd en al deze verschillen worden bij elkaar opgeteld en gedeeld door het aantal samples. Dit geeft de gemiddelde kosten die de huidige hypothese met zich meebrengt. Deze kosten worden weergegeven met $J$, wat dus een een functie is van $\theta$. De complete formule van de kostenfunctie is dus:
 
 \[
-J(\theta) = \frac{1}{2m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2.
+J(\theta) = \frac{1}{2m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2
 \]
 
 
@@ -102,7 +102,7 @@ Het doel van lineaire regressie is de totale kosten $J(\theta)$ te minimaliseren
 \caption{Lineaire regressie.\label{img:overzicht}}
 \end{figure}
 
-De vraag die dus voorligt is dus welke waarden de vector $\theta$ moet bevatten om $J(\theta)$ zo klein mogelijk te maken. Wanneer we ons voor het gemak even houden bij het huizenvoorbeeld van hierboven, wordt de vraag welke waarden $\theta_1$ en $\theta_2$ moeten hebben om de lijn de definiëren die het beste voorspelling van de prijs doet op basis van de grootte van het huis. Het algoritme dat hiervoor bestaat is betrekkelijk eenvoudig: kies een waarde voor $\theta_1$ en $\theta_2$, bereken $J(\theta)$ voor deze waarden en verander $\theta_1$ en $\theta_2$ zodat $J(\theta)$ kleiner wordt. Het probleem is natuurlijk hoe we deze veranderingen uit moeten rekenen.
+De vraag die dus voorligt is dus welke waarden de vector $\theta$ moet bevatten om $J(\theta)$ zo klein mogelijk te maken. Wanneer we ons voor het gemak even houden bij het huizenvoorbeeld van hierboven, dan wordt de vraag: Welke waarden moeten $\theta_1$ en $\theta_2$ hebben om de lijn te definiëren die het beste een voorspelling van de prijs doet, op basis van de grootte van het huis. Het algoritme dat hiervoor bestaat is betrekkelijk eenvoudig: Kies een waarde voor $\theta_1$ en $\theta_2$, bereken $J(\theta)$ voor deze waarden en verander $\theta_1$ en $\theta_2$ zodat $J(\theta)$ kleiner wordt. Het probleem is natuurlijk hoe we deze veranderingen uit moeten rekenen.
 
 In het huizenvoorbeeld wordt de hypothese van de prijs van een huis gedefinieerd door $h_{\theta}(x) = \theta_1 + \theta_2x$, waarbij $x$ de grootte van het huis is kwestie is. Op basis van de kostenfunctie, kunnen we een plot tekenen van $J(\theta)$ voor een grote \textit{range} van $\theta$. Omdat we twee variabelen hebben, wordt dit een driedimensionaal figuur zoals in figuur \ref{img:contour1}.
 
